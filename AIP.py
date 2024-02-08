@@ -2,7 +2,8 @@ import os
 import sys
 import subprocess
 import shutil
-class AIP():
+
+def AIP():
     def _is_package_installed(package_name):
         try:
             __import__(package_name)
@@ -27,15 +28,15 @@ class AIP():
             exit()
 
     def install(package_name):
-        if not self._is_package_installed("colorama"):
-            self._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
+        if not _is_package_installed("colorama"):
+            _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
         from colorama import Fore, Style
-        if self._is_package_installed(package_name):
+        if _is_package_installed(package_name):
             print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL}{package_name} is already installed")
             pass
         else:
             print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL} {package_name} installing ")
-            if self._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', package_name]) == None:
+            if _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', package_name]) == None:
                 print(f"{Fore.RED}[AIP]{Style.RESET_ALL} {package_name} not installed")
                 exit()
             else:
