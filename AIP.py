@@ -3,7 +3,6 @@ import sys
 import subprocess
 import shutil
 class AIP():
-
     def _is_package_installed(package_name):
         try:
             __import__(package_name)
@@ -27,7 +26,7 @@ class AIP():
             print(f"{e.stderr.strip()}")
             exit()
 
-    def _check_and_install_package(package_name):
+    def install(package_name):
         if not _is_package_installed("colorama"):
             _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
         from colorama import Fore, Style

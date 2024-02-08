@@ -16,19 +16,19 @@ exec(urlopen('https://raw.githubusercontent.com/persamplex/online-tools/main/AIP
 try:
     from colorama import Fore, Style
 except ModuleNotFoundError:
-    _check_and_install_package('colorama')
+    AIP.install('colorama')
     from colorama import Fore, Style
 
 try:
     from pytz import timezone
 except ModuleNotFoundError :
-    _check_and_install_package('pytz')
+    AIP.install('pytz')
     from pytz import timezone
 
 try:   
     from persiantools.jdatetime import JalaliDate
 except ModuleNotFoundError :
-    _check_and_install_package('persiantools')
+    AIP.install('persiantools')
     from persiantools.jdatetime import JalaliDate
 
 
