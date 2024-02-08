@@ -9,60 +9,62 @@ import shutil
 import difflib
 from functools import lru_cache
 import atexit
-
-def _is_package_installed(package_name):
-    try:
-        __import__(package_name)
-        return True
-    except ImportError:
+class AIP():
+    def _is_package_installed(package_name):
         try:
-            __import__(package_name.lower())
+            __import__(package_name)
             return True
-        except:
+        except ImportError:
             try:
-                result = subprocess.run([sys.executable, '-m','pip', 'show', '--quiet', package_name], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-                return result.returncode == 0 
-            except subprocess.CalledProcessError:
-                return False
+                __import__(package_name.lower())
+                return True
+            except:
+                try:
+                    result = subprocess.run([sys.executable, '-m','pip', 'show', '--quiet', package_name], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                    return result.returncode == 0 
+                except subprocess.CalledProcessError:
+                    return False
 
-def _run_command(command):
-    try:
-        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        return result.stdout.strip()
-    except subprocess.CalledProcessError as e:
-        print(f"{e.stderr.strip()}")
-        exit()
-
-def AIP_install(package_name):
-    if not _is_package_installed("colorama"):
-        _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
-    from colorama import Fore, Style
-    if _is_package_installed(package_name):
-        print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL}{package_name} is already installed")
-        pass
-    else:
-        print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL} {package_name} installing ")
-        if _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', package_name]) == None:
-            print(f"{Fore.RED}[AIP]{Style.RESET_ALL} {package_name} not installed")
+    def _run_command(command):
+        try:
+            result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            return result.stdout.strip()
+        except subprocess.CalledProcessError as e:
+            print(f"{e.stderr.strip()}")
             exit()
+
+    def install(package_name):
+        if not AIP._is_package_installed("colorama"):
+            AIP._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
+        from colorama import Fore, Style
+        if AIP._is_package_installed(package_name):
+            print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL}{package_name} is already installed")
+            pass
         else:
-            print(f"{Fore.GREEN}[AIP]{Style.RESET_ALL} {package_name} installed")
+            print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL} {package_name} installing ")
+            if AIP._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', package_name]) == None:
+                print(f"{Fore.RED}[AIP]{Style.RESET_ALL} {package_name} not installed")
+                exit()
+            else:
+                print(f"{Fore.GREEN}[AIP]{Style.RESET_ALL} {package_name} installed")
+
+
 try:
     from colorama import Fore, Style
 except ModuleNotFoundError:
-    AIP_install('colorama')
+    AIP.install('colorama')
     from colorama import Fore, Style
 
 try:
     from pytz import timezone
 except ModuleNotFoundError :
-    AIP_install('pytz')
+    AIP.install('pytz')
     from pytz import timezone
 
 try:   
     from persiantools.jdatetime import JalaliDate
 except ModuleNotFoundError :
-    AIP_install('persiantools')
+    AIP.install('persiantools')
     from persiantools.jdatetime import JalaliDate
 
 
