@@ -27,7 +27,7 @@ class AIP():
             exit()
 
     def install(package_name):
-        if not _is_package_installed("colorama"):
+        if not self._is_package_installed("colorama"):
             self._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
         from colorama import Fore, Style
         if self._is_package_installed(package_name):
