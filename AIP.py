@@ -28,14 +28,14 @@ class AIP():
 
     def install(package_name):
         if not _is_package_installed("colorama"):
-            _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
+            self._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', 'colorama'])
         from colorama import Fore, Style
-        if _is_package_installed(package_name):
+        if self._is_package_installed(package_name):
             print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL}{package_name} is already installed")
             pass
         else:
             print(f"{Fore.BLACK}[AIP]{Style.RESET_ALL} {package_name} installing ")
-            if _run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', package_name]) == None:
+            if self._run_command([sys.executable, '-m', 'pip', 'install', '--upgrade', package_name]) == None:
                 print(f"{Fore.RED}[AIP]{Style.RESET_ALL} {package_name} not installed")
                 exit()
             else:
