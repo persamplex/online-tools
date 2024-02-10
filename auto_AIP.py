@@ -91,7 +91,7 @@ def __custom_exception_handler(exception_type, exception, traceback):
         code = subprocess.run([sys.executable, sys.argv[0]]) 
         if code.returncode == 0:
             subprocess.run([sys.executable, sys.argv[0]])
-        else:
+    else:
         sys.__excepthook__(exception_type, exception, traceback)
 
 sys.excepthook = __custom_exception_handler
