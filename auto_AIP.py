@@ -89,6 +89,8 @@ def __custom_exception_handler(exception_type, exception, traceback):
         package_name = exception.name  
         install(package_name)
         code = subprocess.call([sys.executable, sys.argv[0]]) 
+        if code == 0:
+            subprocess.run([sys.executable, sys.argv[0]])
     else:
         sys.__excepthook__(exception_type, exception, traceback)
 
