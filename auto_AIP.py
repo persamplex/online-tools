@@ -88,10 +88,10 @@ def __custom_exception_handler(exception_type, exception, traceback):
     if exception_type == ModuleNotFoundError:
         package_name = exception.name  
         install(package_name)
-        code = subprocess.call([sys.executable, sys.argv[0]]) 
-        if code == 0:
+        code = subprocess.run([sys.executable, sys.argv[0]]) 
+        if code.returncode == 0:
             subprocess.run([sys.executable, sys.argv[0]])
-    else:
+        else:
         sys.__excepthook__(exception_type, exception, traceback)
 
 sys.excepthook = __custom_exception_handler
